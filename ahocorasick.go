@@ -57,6 +57,9 @@ type Matcher struct {
 	root   *node // Points to trie[0]
 }
 
+// Greedy is false means non-greedy Matches
+var Greedy bool = false
+
 // finndBlice looks for a blice in the trie starting from the root and
 // returns a pointer to the node representing the end of the blice. If
 // the blice is not found it returns nil.
@@ -235,6 +238,9 @@ func (m *Matcher) Match(in []byte) []int {
 			if f.output && f.counter != m.counter {
 				hits = append(hits, f.index)
 				f.counter = m.counter
+				if Greedy == false {
+					break
+				}
 			}
 
 			for !f.suffix.root {
